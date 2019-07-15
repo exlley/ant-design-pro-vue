@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import qs from 'qs'
 import store from '@/store'
 import {
   VueAxios
@@ -9,9 +10,20 @@ import {
   ACCESS_TOKEN
 } from '@/store/mutation-types'
 
+axios.interceptors.request.use(
+  config => {
+    if (config.method === 'post') {
+      config.data = qs.stringify(config.data)
+    }
+    return config
+  },
+  error => {
+    Promise.reject(error)
+  }
+)
+
 // 创建 axios 实例
 const service = axios.create({
-  baseURL: '/api', // api base_url
   timeout: 6000 // 请求超时时间
 })
 

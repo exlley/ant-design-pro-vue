@@ -1,5 +1,5 @@
-import api from './index'
 import { axios } from '@/utils/request'
+import { LoginAPI } from './index'
 
 /**
  * login func
@@ -14,15 +14,27 @@ import { axios } from '@/utils/request'
  */
 export function login (parameter) {
   return axios({
-    url: '/auth/login',
+    url: LoginAPI.Login,
     method: 'post',
+    transformRequest: [
+      function (data) {
+        let ret = ''
+        for (const it in data) {
+          ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        }
+        return ret
+      }
+    ],
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
     data: parameter
   })
 }
 
 export function getSmsCaptcha (parameter) {
   return axios({
-    url: api.SendSms,
+    url: LoginAPI.SendSms,
     method: 'post',
     data: parameter
   })
@@ -30,17 +42,14 @@ export function getSmsCaptcha (parameter) {
 
 export function getInfo () {
   return axios({
-    url: '/user/info',
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
+    url: LoginAPI.UserInfo,
+    method: 'get'
   })
 }
 
 export function logout () {
   return axios({
-    url: '/auth/logout',
+    url: LoginAPI.Logout,
     method: 'post',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -54,7 +63,7 @@ export function logout () {
  */
 export function get2step (parameter) {
   return axios({
-    url: api.twoStepCode,
+    url: LoginAPI.twoStepCode,
     method: 'post',
     data: parameter
   })
