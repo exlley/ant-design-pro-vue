@@ -1,13 +1,13 @@
 const urls = {
   login: {
     Login: '/login',
-    Logout: '/auth/logout',
+    Logout: '/logout',
     ForgePassword: '/auth/forge-password',
     Register: '/auth/register',
     twoStepCode: '/auth/2step-code',
     SendSms: '/account/sms',
     SendSmsErr: '/account/sms_err',
-    UserInfo: '/user/info'
+    UserInfo: '/api/v1_0/my/info'
   },
   manage: {
     user: '/user',

@@ -24,7 +24,8 @@ axios.interceptors.request.use(
 
 // 创建 axios 实例
 const service = axios.create({
-  timeout: 6000 // 请求超时时间
+  timeout: 60000, // 请求超时时间
+  withCredentials: true
 })
 
 const err = (error) => {

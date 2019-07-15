@@ -22,7 +22,7 @@ export function login (parameter) {
         for (const it in data) {
           ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
         }
-        return ret
+        return ret.substr(0, ret.length - 1)
       }
     ],
     headers: {

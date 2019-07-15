@@ -39,9 +39,9 @@ const user = {
         login(userInfo).then(result => {
           if (result.state) {
             const data = result.data
-            Vue.ls.set(ACCESS_TOKEN, data.token, 7 * 24 * 60 * 60 * 1000)
-            commit('SET_TOKEN', data.token)
-            resolve()
+            Vue.ls.set(ACCESS_TOKEN, data, 7 * 24 * 60 * 60 * 1000)
+            commit('SET_TOKEN', data)
+            resolve(data)
           } else {
             reject(result)
           }
@@ -54,9 +54,7 @@ const user = {
     // 获取用户信息
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
-        getInfo().then(response => {
-          const result = response.result
-
+        getInfo().then(result => {
           if (result.role && result.role.permissions.length > 0) {
             const role = result.role
             role.permissions = result.role.permissions
@@ -73,10 +71,10 @@ const user = {
             reject(new Error('getInfo: roles must be a non-null array !'))
           }
 
-          commit('SET_NAME', { name: result.name, welcome: welcome() })
+          commit('SET_NAME', { name: result.nickName, welcome: welcome() })
           commit('SET_AVATAR', result.avatar)
 
-          resolve(response)
+          resolve(result)
         }).catch(error => {
           reject(error)
         })
@@ -89,7 +87,6 @@ const user = {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
         Vue.ls.remove(ACCESS_TOKEN)
-
         logout(state.token).then(() => {
           resolve()
         }).catch(() => {
