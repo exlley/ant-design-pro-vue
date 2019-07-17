@@ -1,3 +1,4 @@
+<script src="../../api/index.js"></script>
 <template>
   <div class="main">
     <a-form

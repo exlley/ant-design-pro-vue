@@ -23,9 +23,9 @@ function plugin (Vue) {
           const [permission, action] = permissions.split('.')
           const permissionList = _this.$store.getters.roles.permissions
           return permissionList.find((val) => {
-            return val.permissionId === permission
+            return val.componentKey === permission
           }).actionList.findIndex((val) => {
-            return val === action
+            return val.method === action
           }) > -1
         }
       }
