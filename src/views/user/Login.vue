@@ -235,12 +235,14 @@ export default {
       })
     },
     loginSuccess (res) {
-      this.$router.push({ name: 'dashboard' })
+      console.log(res)
+      this.$router.push({ name: 'dashboard' }, () => {
+        this.$notification.success({
+          message: '欢迎',
+          description: `${timeFix()}，欢迎回来`
+        })
+      })
       this.isLoginError = false
-      // 延迟 1 秒显示欢迎信息
-      setTimeout(() => {
-        this.$message.success(`${timeFix()}，欢迎回来`, 5)
-      }, 1000)
     },
     requestFailed (err) {
 
