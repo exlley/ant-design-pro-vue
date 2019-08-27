@@ -5,9 +5,7 @@ const username = ['admin', 'user', 'super']
 const password = ['d033e22ae348aeb5660fc2140aec35850c4da997', '214464ca864eb2636bc3a27817ded5e98c4e3f54'] // admin, ant.design
 
 const login = (options) => {
-  console.log(options)
   const body = getForm(options)
-  console.log('mock: body', body)
   if (!username.includes(body.username) || !password.includes(body.password)) {
     return builder({ isLogin: true }, '账户或密码错误', 401)
   }
@@ -44,6 +42,6 @@ const twofactor = () => {
 }
 
 Mock.mock(/\/login/, 'post', login)
-Mock.mock(/\/logout\//, 'post', logout)
+Mock.mock(/\/logout/, 'post', logout)
 Mock.mock(/\/account\/sms/, 'post', smsCaptcha)
 Mock.mock(/\/auth\/2step-code/, 'post', twofactor)
