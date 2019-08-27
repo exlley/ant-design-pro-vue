@@ -2,7 +2,7 @@ const urls = {
   login: {
     Login: '/login',
     Logout: '/logout',
-    ForgePassword: '/auth/forge-password',
+    ForgetPassword: '/auth/forget-password',
     Register: '/auth/register',
     twoStepCode: '/auth/2step-code',
     SendSms: '/account/sms',

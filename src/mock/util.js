@@ -36,3 +36,19 @@ export const getQueryParameters = (options) => {
 export const getBody = (options) => {
   return options.body && JSON.parse(options.body)
 }
+
+export const getForm = (options) => {
+  if (!options.body) {
+    return {}
+  }
+  var obj = {}
+  var reg = /([^?&=]+)=([^?&=]*)/g
+  options.body.replace(reg, function (rs, $1, $2) {
+    var name = decodeURIComponent($1)
+    var val = decodeURIComponent($2)
+    val = String(val)
+    obj[name] = val
+    return rs
+  })
+  return obj
+}
