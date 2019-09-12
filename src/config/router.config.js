@@ -1,6 +1,5 @@
 // eslint-disable-next-line
 import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
-import { bxAnaalyse } from '@/core/icons'
 
 export const asyncRouterMap = [
 
@@ -17,13 +16,22 @@ export const asyncRouterMap = [
         name: 'dashboard',
         redirect: '/dashboard/workplace',
         component: RouteView,
-        meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
+        meta: { title: '仪表盘', keepAlive: true, permission: [ 'dashboard' ] },
         children: [
           {
             path: '/dashboard/analysis',
             name: 'Analysis',
             component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: '分析页', keepAlive: false, permission: [ 'dashboard' ] }
+            meta: { title: '分析页',
+              keepAlive: false,
+              permission: [ 'dashboard' ],
+              actions: [
+                { key: 'pass', title: '通过' },
+                { key: 'cancel', title: '不通过' },
+                { key: 'edit', title: '修改' },
+                { key: 'delete', title: '删除' }
+              ]
+            }
           },
           // 外部链接
           {
@@ -314,6 +322,22 @@ export const asyncRouterMap = [
                 meta: { title: '权限列表', keepAlive: true }
               }
             ]
+          }
+        ]
+      },
+      // system
+      {
+        path: '/system',
+        name: 'systemPage',
+        component: PageView,
+        meta: { title: '系统设置', icon: 'appstore' },
+        redirect: '/system/role',
+        children: [
+          {
+            path: '/system/role',
+            name: '权限设置',
+            component: () => import('@/views/system/Role'),
+            meta: { title: '权限设置', icon: 'tool', keepAlive: true }
           }
         ]
       }

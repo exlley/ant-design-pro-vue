@@ -79,7 +79,19 @@
               </template>
               <div class="setting-drawer-index-item" @click="handleLayout('topmenu')">
                 <img src="https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg" alt="topmenu">
-                <div class="setting-drawer-index-selectIcon" v-if="layoutMode !== 'sidemenu'">
+                <div class="setting-drawer-index-selectIcon" v-if="layoutMode === 'topmenu'">
+                  <a-icon type="check"/>
+                </div>
+              </div>
+            </a-tooltip>
+
+            <a-tooltip>
+              <template slot="title">
+                顶部和侧边导航
+              </template>
+              <div class="setting-drawer-index-item" @click="handleLayout('topAndSidemenu')">
+                <img src="https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg" alt="topAndSidemenu">
+                <div class="setting-drawer-index-selectIcon" v-if="layoutMode === 'topAndSidemenu'">
                   <a-icon type="check"/>
                 </div>
               </div>

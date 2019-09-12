@@ -23,10 +23,13 @@ const mixin = {
   },
   methods: {
     isTopMenu () {
-      return this.layoutMode === 'topmenu'
+      return (this.layoutMode === 'topmenu' || this.layoutMode === 'sidemenu')
     },
     isSideMenu () {
-      return !this.isTopMenu()
+      return (this.layoutMode === 'sidemenu')
+    },
+    isTopAndSidemenu () {
+      return (this.layoutMode === 'topAndSidemenu')
     }
   }
 }

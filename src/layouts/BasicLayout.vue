@@ -20,9 +20,18 @@
     </a-drawer>
 
     <side-menu
-      v-else-if="isSideMenu()"
+      v-if="isSideMenu()"
       mode="inline"
       :menus="menus"
+      :theme="navTheme"
+      :collapsed="collapsed"
+      :collapsible="true"
+    ></side-menu>
+
+    <side-menu
+      v-if="isTopAndSidemenu()"
+      mode="inline"
+      :menus="menuList"
       :theme="navTheme"
       :collapsed="collapsed"
       :collapsible="true"
@@ -31,11 +40,22 @@
     <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
       <!-- layout header -->
       <global-header
+        v-if="isTopMenu()"
         :mode="layoutMode"
         :menus="menus"
         :theme="navTheme"
         :collapsed="collapsed"
         :device="device"
+        @toggle="toggle"
+      />
+      <top-menu
+        v-if="isTopAndSidemenu()"
+        :mode="layoutMode"
+        :menus="current"
+        :theme="navTheme"
+        :collapsed="collapsed"
+        :device="device"
+        @handleClick="handleClick"
         @toggle="toggle"
       />
 
@@ -67,6 +87,7 @@ import config from '@/config/defaultSettings'
 
 import RouteView from './RouteView'
 import SideMenu from '@/components/Menu/SideMenu'
+import TopMenu from '@/components/TopMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
 import SettingDrawer from '@/components/SettingDrawer'
@@ -77,15 +98,95 @@ export default {
   components: {
     RouteView,
     SideMenu,
-    GlobalHeader,
+    TopMenu,
     GlobalFooter,
-    SettingDrawer
+    SettingDrawer,
+    GlobalHeader
   },
   data () {
     return {
       production: config.production,
       collapsed: false,
-      menus: []
+      menus: [],
+      menuList: [],
+      current: [
+
+        {
+          path: '/',
+          name: 'index',
+          meta: { title: '首页' },
+          redirect: '/dashboard/workplace'
+        },
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          redirect: '/dashboard/workplace',
+          component: RouteView,
+          meta: { title: '仪表盘' }
+        },
+
+        // forms
+        {
+          path: '/form',
+          redirect: '/form/base-form',
+          meta: { title: '表单页' }
+        },
+
+        // list
+        {
+          path: '/list',
+          name: 'list',
+          redirect: '/list/table-list',
+          meta: { title: '列表页' }
+        },
+
+        // profile
+        {
+          path: '/profile',
+          name: 'profile',
+          redirect: '/profile/basic',
+          meta: { title: '详情页' }
+        },
+
+        // result
+        {
+          path: '/result',
+          name: 'result',
+          redirect: '/result/success',
+          meta: { title: '结果页' }
+        },
+
+        // Exception
+        {
+          path: '/exception',
+          name: 'exception',
+          redirect: '/exception/403',
+          meta: { title: '异常页' }
+        },
+
+        // account
+        {
+          path: '/account',
+          redirect: '/account/center',
+          name: 'account',
+          meta: { title: '个人页' }
+        },
+
+        // other
+        {
+          path: '/other',
+          name: 'otherPage',
+          meta: { title: '其他组件' },
+          redirect: '/other/icon-selector'
+        },
+        // system
+        {
+          path: '/system',
+          name: 'systemPage',
+          meta: { title: '系统设置' },
+          redirect: '/system/role'
+        }
+      ]
     }
   },
   computed: {
@@ -146,6 +247,15 @@ export default {
     },
     drawerClose () {
       this.collapsed = false
+    },
+    handleClick (e) {
+      const menuList = this.mainMenu[0].children
+      const menus = menuList.find(item => item.path === e.key)
+      if (menus) {
+        this.menuList = menus.children
+      } else {
+        this.menuList = []
+      }
     }
   }
 }
